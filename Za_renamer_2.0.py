@@ -7,6 +7,8 @@ def rename_files():
     folder_path = folder_entry.get()
     file_prefix = prefix_entry.get()
     file_extension = suffix_entry.get()
+    prefix_filter = prefix_filter_entry.get()
+    extension_filter = extension_filter_entry.get()
 
     if not os.path.isdir(folder_path):
         messagebox.showerror("Error", "Invalid folder path")
@@ -18,6 +20,12 @@ def rename_files():
 
     num = 1
     for filename in os.listdir(folder_path):
+        if prefix_filter and not filename.lower().startswith(prefix_filter.lower()):
+            continue
+
+        if extension_filter and not filename.lower().endswith(extension_filter.lower()):
+            continue
+
         if filename.lower().endswith(file_extension.lower()):
             folder_location = os.path.join(folder_path, filename)
             new_name = os.path.join(folder_path, f"{file_prefix} {str(num)}{file_extension}")
@@ -47,7 +55,7 @@ def select_file_extension():
 # Create the main frame
 frame = tk.Tk()
 frame.title("File Renamer")
-frame.geometry('500x200')
+frame.geometry('500x250')
 
 # Create the header label
 header = tk.Label(frame, text="The World's Best File Renamer".title())
@@ -75,9 +83,21 @@ suffix_entry.grid(column=1, row=3)
 select_extension_button = tk.Button(frame, text="Select Extension", command=select_file_extension)
 select_extension_button.grid(column=2, row=3)
 
+# Create the prefix filter entry and label
+prefix_filter_label = tk.Label(frame, text="Prefix Filter: ")
+prefix_filter_label.grid(column=0, row=4)
+prefix_filter_entry = tk.Entry(frame, width=40, bg="white")
+prefix_filter_entry.grid(column=1, row=4)
+
+# Create the extension filter entry and label
+extension_filter_label = tk.Label(frame, text="Extension Filter: ")
+extension_filter_label.grid(column=0, row=5)
+extension_filter_entry = tk.Entry(frame, width=40, bg="white")
+extension_filter_entry.grid(column=1, row=5)
+
 # Create the rename button
 rename_button = tk.Button(frame, text="Rename", width=10, height=1, fg="black", bg="gray", command=rename_files)
-rename_button.grid(column=0, row=4)
+rename_button.grid(column=0, row=6)
 
 # Run the main event loop
 frame.mainloop()
