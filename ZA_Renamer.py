@@ -9,7 +9,7 @@ frame = Tk()
 # Give it a title
 frame.title("File Renamer")
 
-#frame.iconbitmap(r"C:\Users\Freddie xxix\Desktop\2022\Home_Projects\leafsymbold.ico")
+# frame.iconbitmap(r"C:\Users\Freddie xxix\Desktop\2022\Home_Projects\leafsymbol.ico")
 # Set the frame's geometry
 frame.geometry('500x200')
 
@@ -45,15 +45,16 @@ suffix_lab.grid(column=0, row=6)
 suffix = Entry(frame, width=40, textvariable=suff, bg="white")
 suffix.grid(column=1, row=6)
 
+
 def rmBtn():
     num = 1
 
     for files in os.listdir(folder.get()):
-        folder_location = f"{folder.get()}{files}"
+        folder_location = os.path.join(folder.get(), files)
 
         # dest = folder + input("insert the new name for the file: ") + input("insert the file extension with a dot: ")
 
-        new_name = f"{folder.get()}{prefix.get()}  {str(num)}.{suffix.get()}"
+        new_name = os.path.join(folder.get(), f"{prefix.get()} {str(num)}.{suffix.get()}")
 
         num += 1
 
@@ -63,4 +64,3 @@ def rmBtn():
 rm_bttn = Button(frame, text="Rename", width=10, height=1, fg="black", bg="gray", command=rmBtn)
 rm_bttn.grid(column=0, row=7)
 frame.mainloop()
-
